@@ -6,17 +6,31 @@ module.exports = {
 };
 
 function succeed(item) {
-  return { ...item };
+  return { ...item }, item.enhancement < 20 && item.enhancement++;
 }
 
 function fail(item) {
-  return { ...item };
+   if (item.enhancement < 15) {
+    return { ...item }, (item.durability = item.durability - 5);
+  } else if (item.enhancement > 15 && item.enhancement < 17) {
+    return { ...item }, (item.durability = item.durability - 10);
+  } else if (item.enhancement > 17) {
+    return (
+      { ...item }, item.enhancement--, (item.durability = item.durability - 10)
+    );
+  };
 }
 
 function repair(item) {
-  return { ...item };
+  return { ...item }, (item.durability = 100);
 }
 
 function get(item) {
-  return { ...item };
+  return (
+    { ...item },
+    item.enhancement === 0
+      ? (item.name = item.name)
+      : item.enhancement > 0 &&
+        (item.name = `${item.name}[${item.enhancement}]`)
+  );
 }
